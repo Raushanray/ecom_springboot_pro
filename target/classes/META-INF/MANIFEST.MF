@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: ecom_springboot_pro
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: User
+Implementation-Vendor-Id: com.ecom
+Build-Jdk: 1.8.0_202
+Implementation-URL: https://spring.io/projects/spring-boot/ecom_spring
+ boot_pro
+Created-By: Maven Integration for Eclipse
+
