@@ -1,5 +1,10 @@
 package com.ecom.controller;
 
+import com.ecom.exception.BadUserLoginDetailException;
+import com.ecom.payload.JwtRequest;
+import com.ecom.payload.JwtResponse;
+import com.ecom.payload.UserDto;
+import com.ecom.security.JwtHelper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,17 +15,10 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ecom.exception.BadUserLoginDetailException;
-import com.ecom.payload.JwtRequest;
-import com.ecom.payload.JwtResponse;
-import com.ecom.payload.UserDto;
-import com.ecom.security.JwtHelper;
 
 @RestController
 @RequestMapping("/auth")
@@ -69,10 +67,10 @@ public class AuthController {
 	            manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 	        } catch (BadCredentialsException e) {
 
-	            throw new BadUserLoginDetailException("Invalid username or Password !!");
+	            throw new BadUserLoginDetailException("Invalid username or Password!!");
 
 	        } catch (DisabledException e) {
-	            throw new BadUserLoginDetailException("User is not active !!");
+				throw new BadUserLoginDetailException("User is not active!!");
 	        }
 
 
