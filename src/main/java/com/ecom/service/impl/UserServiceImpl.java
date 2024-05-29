@@ -1,12 +1,5 @@
 package com.ecom.service.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ecom.entities.Role;
 import com.ecom.entities.User;
 import com.ecom.exception.ResourceNotFoundException;
@@ -14,34 +7,49 @@ import com.ecom.payload.UserDto;
 import com.ecom.repo.RoleRepository;
 import com.ecom.repo.UserRepository;
 import com.ecom.service.UserService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	
+
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
-	
+
+	@Autowired
+	private ModelMapper modelMapper;
+
+	@Value("${role_normal_id}")
+	private String role_normal_id;
+
+
 	@Override
 	public UserDto create(UserDto userDto) {
-		
+
+
 		//dto to entity
-		
-		User user = this.toEntity(userDto);
-		
-		
-		Role role = this.roleRepository.findById(7412).get();
-		user.getRoles().add(role);
-		
-		User createdUser = this.userRepository.save(user);
-		
+		User user = toEntity(userDto);
+
+		//fetch role of normal and set it to user
+		Role role = roleRepository.findById(role_normal_id).get();
+		user.setRoles(Set.of(role));
+//		user.getRoles().add(role);
+
+		User createdUser = userRepository.save(user);
+
 		//Entity to dto
-		
-		return this.toDto(createdUser);
+
+		return toDto(createdUser);
 	}
 
 	@Override
@@ -93,19 +101,18 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	
-	@Autowired
-	private ModelMapper mopper1;
+
 	
 	
 	public UserDto toDto(User user) {
-		
-		return this.mopper1.map(user, UserDto.class);
+
+		return this.modelMapper.map(user, UserDto.class);
 	}
 	
 	
 	public User toEntity(UserDto dto)
 	{
-		return this.mopper1.map(dto, User.class);
+		return this.modelMapper.map(dto, User.class);
 	}
 	
 }
