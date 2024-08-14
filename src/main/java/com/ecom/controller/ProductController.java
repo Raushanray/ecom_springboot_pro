@@ -112,7 +112,6 @@ public class ProductController {
 					@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE_STRING, required = false) int pageSize,
 					@RequestParam(value = "soryby", defaultValue = AppConstants.SORT_BY_STRING,required = false) String sortby,
 					@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR_STRING,required = false)String sortDir
-					
 					) {
 				
 				ProductResponse response = productService.getAll(pageNumber, pageSize, sortby, sortDir);
